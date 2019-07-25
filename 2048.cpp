@@ -29,14 +29,14 @@ void rndgrid(){
 }
 void update(){
 	system("clear");
-	printf("\e[1m\e[01;34m");
+	printf("\e[1;34m");
 	printf(" ┌──┐  ┌──┐        ┌──┐ \n");
 	printf("    │  │  │  │  │  │  │ \n");
 	printf(" ┌──┘  │  │  └──┤  ├──┤ \n");
 	printf(" │     │  │     │  │  │ \n");
 	printf(" └──┘  └──┘     │  └──┘ \n");
 	printf("                         \e[0m--by Eddysboy\n");
-	printf("R 开始   E 退出   F 从存档载入");
+	printf("\e[35mR 开始   E 退出   F 从存档载入\n");
 	printf("ASDW 移动方块\n");
 	cout<<setw(20)<<score<<endl;
 	cout<<endl;
@@ -65,13 +65,25 @@ void update(){
 	puts("");
 }
 void init_with_save(){
-	FILE *fp=freopen("save.txt","r",stdin);
-	cin>>score;
+	FILE *fp=fopen("save.dat","r");
+	if(fp==NULL){
+		puts("存档文件已损坏！");
+		return;
+	}
+	if(fscanf(fp,"%d",&score)==EOF){
+		puts("存档文件已损坏！");
+		return;
+	}
 	for(int i=0;i<4;i++)
 		for(int j=0;j<4;j++)
-			cin>>grid[i][j];
+			if(fscanf(fp,"%d",&grid[i][j])==EOF){
+				puts("存档文件已损坏！");
+				return;
+			}
 	fflush(fp);
-	freopen("/dev/tty","r",stdin);
+	// freopen("/dev/tty","r",stdin);
+	puts("导入成功！");
+	update();
 }
 void init_grid(){
 	system("stty -icanon");
@@ -187,7 +199,7 @@ void grid_right(){
 }
 void Exit(){
 	cout<<endl;
-	freopen("save.txt","w",stdout);
+	freopen("save.dat","w",stdout);
 	cout<<score<<endl;
 	for(int i=0;i<4;i++){
 		for(int j=0;j<4;j++)
@@ -215,7 +227,8 @@ bool check(){
 	return moved;
 }
 int main(){
-	init_with_save();
+	rndgrid(),rndgrid();
+	// init_with_save();
 	Beg:;
 	update();
 	while(check()){
@@ -235,8 +248,6 @@ int main(){
 		if(ch=='e')Exit();
 		if(ch=='f'){
 			init_with_save();
-			update();
-			cout<<"导入成功！\n";
 			continue;
 		}
 		if(!moved)continue;
