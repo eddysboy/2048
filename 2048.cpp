@@ -227,8 +227,8 @@ bool check(){
 	return moved;
 }
 int main(){
-	rndgrid(),rndgrid();
-	// init_with_save();
+	// rndgrid(),rndgrid();
+	init_with_save();
 	Beg:;
 	update();
 	while(check()){
