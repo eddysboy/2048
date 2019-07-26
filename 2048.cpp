@@ -68,16 +68,19 @@ void init_with_save(){
 	FILE *fp=fopen("save.dat","r");
 	if(fp==NULL){
 		puts("存档文件已损坏！");
+		fflush(fp);
 		return;
 	}
 	if(fscanf(fp,"%d",&score)==EOF){
 		puts("存档文件已损坏！");
+		fflush(fp);
 		return;
 	}
 	for(int i=0;i<4;i++)
 		for(int j=0;j<4;j++)
 			if(fscanf(fp,"%d",&grid[i][j])==EOF){
 				puts("存档文件已损坏！");
+				fflush(fp);
 				return;
 			}
 	fflush(fp);
@@ -227,8 +230,9 @@ bool check(){
 	return moved;
 }
 int main(){
-	// rndgrid(),rndgrid();
-	init_with_save();
+    system("stty -icanon");
+	rndgrid(),rndgrid();
+	// init_with_save();
 	Beg:;
 	update();
 	while(check()){
@@ -250,8 +254,7 @@ int main(){
 			init_with_save();
 			continue;
 		}
-		if(!moved)continue;
-		rndgrid();
+		if(moved)rndgrid();
 		update();
 	}
 	puts("Game Over!");
