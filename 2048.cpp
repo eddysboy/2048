@@ -89,7 +89,7 @@ void init_with_save(){
 	update();
 }
 void init_grid(){
-	system("stty -icanon");
+	score=0;
 	srand(time(NULL));
 	for(int i=0;i<4;i++)
 		for(int j=0;j<4;j++)
@@ -216,7 +216,6 @@ void copy(int tp[4][4],int grid[4][4]){
 		for(int j=0;j<4;j++)
 			tp[i][j]=grid[i][j];
 }
-
 bool check(){
 	int tp[4][4];
 	copy(tp,grid);
