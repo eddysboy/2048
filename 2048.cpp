@@ -216,6 +216,7 @@ void copy(int tp[4][4],int grid[4][4]){
 		for(int j=0;j<4;j++)
 			tp[i][j]=grid[i][j];
 }
+
 bool check(){
 	int tp[4][4];
 	copy(tp,grid);
