@@ -217,7 +217,7 @@ void copy(int tp[4][4],int grid[4][4]){
 			tp[i][j]=grid[i][j];
 }
 bool check(){
-	int tp[4][4];
+	int tp[4][4],pscore=score;
 	copy(tp,grid);
 	grid_up();
 	copy(grid,tp);
@@ -227,6 +227,7 @@ bool check(){
 	copy(grid,tp);
 	grid_right();
 	copy(grid,tp);
+	score=pscore;
 	return moved;
 }
 int main(){
